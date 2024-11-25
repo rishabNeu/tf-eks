@@ -6,35 +6,19 @@ module "eks" {
 
   cluster_endpoint_public_access  = false
 
-#   cluster_addons = {
-#     coredns                = {}
-#     eks-pod-identity-agent = {}
-#     kube-proxy             = {}
-#     vpc-cni                = {}
-#   }
-
   vpc_id                   = var.vpc_id
-  subnet_ids               = var.subnet_ids
+  subnet_ids               = var.private_subnet_ids
 
 #   control_plane_subnet_ids = module.vpc.public_subnets_cidr
 
   # EKS Managed Node Group
-  eks_managed_node_group_defaults = {
-    instance_types         = ["t2.micro"]
-    # vpc_security_group_ids = [aws_security_group.all_worker_mgmt.id]
-  }
-
   eks_managed_node_groups = {
-
     node_group = {
       min_size     = 1
-      max_size     = 2
+      max_size     = 1
       desired_size = 1
+      instance_types = ["t2s.micro"]
     }
-
-    tags = {
-    Name = "worker node group"
-  }
 }
 
 access_entries = {
@@ -51,12 +35,5 @@ access_entries = {
         }
       }
     }
-  }
-
-
-
-
-  tags = {
-    Name = "rishab-cluster"
   }
 }

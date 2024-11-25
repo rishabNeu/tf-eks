@@ -21,8 +21,8 @@ module "bastion"{
   public_subnet_id = module.networking.public_subnets
 }
 
-# module "eks"{
-#   source = "../modules/eks"
-#   vpc_id     = module.vpc.vpc_id
-#   subnet_ids = module.vpc.private_subnets
-# }
+module "eks"{
+  source = "../modules/eks"
+  vpc_id     = module.networking.vpc_id
+  private_subnet_ids = module.networking.private_subnets
+}
