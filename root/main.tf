@@ -19,10 +19,12 @@ module "bastion"{
   source = "../modules/bastion"
   public_subnets = var.public_subnets_cidr
   public_subnet_id = module.networking.public_subnets
+  vpc_id = module.networking.vpc_id
 }
 
 module "eks"{
   source = "../modules/eks"
   vpc_id     = module.networking.vpc_id
+  bastion_sg_id = module.bastion.bastion_sg_id
   private_subnet_ids = module.networking.private_subnets
 }
